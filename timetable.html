@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Better Beehive</title>
+        
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5SR0JTV48F"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-5SR0JTV48F');
+        </script>
+        <!-- End of global site tag (gtag.js) - Google Analytics -->
+
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="favicon.ico">
+    
+    </head>
+
+    <body>
+        
+        <button type="submit" onclick="logoutUser()" style="float: right;">Log out</button>
+        <button type="submit" onclick="window.location.replace('home')" style="float: right;">Home</button>
+
+        <p id="usernameMessage">Logged in: <span id="username"></span></p>
+
+        <h1 style="margin-bottom: 0;">BetterBeehive</h1>
+        <h2 id="slogan" style="margin-top: 0;">It's Beehive but better!</h2>
+
+        <h3>Your timetable</h3>
+
+        <span id="timetables"></span>
+
+        <br>
+
+        <p class="footer">
+            Contribute on Github:
+            <a href="https://github.com/0xShay/OpenBeehive" target="_blank">0xShay/OpenBeehive</a>
+        </p>
+        
+        <script src="jwt-decode.js"></script>
+        <script src="logoutUser.js"></script>
+        <script src="userTools.js"></script>
+        <script src="slogans.js"></script>
+
+        <script src="ics.deps.min.js"></script>
+
+        <script>
+
+            let userID = getUserID(localStorage.access_token);
+
+            getPlanner(userID).then(planner => {
+                document.getElementById("username").innerHTML = `${planner.firstName} ${planner.lastName} (${planner.tutorGroup.friendlyName})`;
+            });
+
+            let ttSpan = document.getElementById("timetables");
+
+            // let subjectColors = {
+            //     "Self Study": "#ffffff",
+            //     "Silent Study": "#e6e6e6",
+            //     "Mathematics": "#e0ffde",
+            //     "Computer Science": "#e0feff",
+            //     "French": "#ccccff",
+            //     "Economics": "#ffebc7",
+            //     "Physics": "#cfe0ff",
+            //     "History": "#ffd9d9"
+            // };
+
+            let subjectColors = {
+                "Self Study": "#121212",
+                "Silent Study": "#000000",
+                "Mathematics": "#0e2112",
+                "Computer Science": "#162929",
+                "French": "#161b2b",
+                "Economics": "#241e13",
+                "Physics": "#1a2430",
+                "History": "#291716"
+            };            
+
+            function previewSubjectColors() {
+                ttSpan.innerHTML = "";
+                let tbl = document.createElement("table");
+                for (subjectName of Object.keys(subjectColors)) {
+                    const tr = tbl.insertRow();
+                    const td = tr.insertCell();
+                    td.innerHTML = subjectName;
+                    td.style.backgroundColor = subjectColors[subjectName];
+                }
+                ttSpan.appendChild(tbl);
+            };
+
+            function showTimetable(uID=userID) {
+                ttSpan.innerHTML = "";
+                getTimetable(uID).then(timetables => {
+                    console.log(timetables);
+                    timetables.schools.forEach(s => {
+                        let tag = document.createElement("h4");
+                        let text = document.createTextNode(s.school.name);
+                        tag.appendChild(text);
+                        ttSpan.appendChild(tag);
+    
+                        s.cycles.forEach(c => {
+                            let cal = ics();
+                            let calBtn = document.createElement("button");
+                            calBtn.innerHTML = "Export .ics";
+                            let tbl = document.createElement("table");
+                            for (let i = 0; i < 8; i++) {
+                                const tr = tbl.insertRow();
+                                for (let j = 0; j < 5; j++) {
+                                    if (i == 0) {
+                                        const th = tr.insertCell();
+                                        th.appendChild(document.createTextNode(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"][j]));
+                                        th.style.fontWeight = 'bold';
+                                    } else {
+                                        const td = tr.insertCell();
+                                        const lesson = c["days"][j]["lessons"][i-1];
+
+                                        if (!subjectColors[lesson["subject"]]) {
+                                            let localColor = "";
+                                            crypto.getRandomValues(new Uint8Array(3)).forEach(i => localColor += (((i%25) + 20).toString(16)).padStart(2, "0"));
+                                            subjectColors[lesson["subject"]] = "#" + localColor;
+                                        }
+                                        
+                                        if (lesson["subject"] == "Self Study") {
+                                            td.innerHTML = ``;
+                                        } else {
+                                            td.innerHTML = `${lesson["subject"]}<br>${lesson["room"]}<br>${lesson["teacher"]}`;
+
+                                            let dS = new Date();
+                                            dS.setDate(dS.getDate() + ((7-dS.getDay())%7+(j+1)) % 7);
+                                            dS.setHours(lesson["starts"].split(":")[0]);
+                                            dS.setMinutes(lesson["starts"].split(":")[1]);
+                                            dS.setSeconds(lesson["starts"].split(":")[2]);
+
+                                            let dE = new Date();
+                                            dE.setDate(dE.getDate() + ((7-dE.getDay())%7+(j+1)) % 7);
+                                            dE.setHours(lesson["ends"].split(":")[0]);
+                                            dE.setMinutes(lesson["ends"].split(":")[1]);
+                                            dE.setSeconds(lesson["ends"].split(":")[2]);
+                                            
+                                            cal.addEvent(lesson["subject"], "", lesson["room"], dS, dE, { freq: "WEEKLY" });
+                                        }
+
+                                        td.style.backgroundColor = subjectColors[lesson["subject"]];
+                                        td.style.width = '10%';
+                                    }
+                                }
+                            }
+                            ttSpan.appendChild(tbl);
+                            calBtn.onclick = () => {
+                                prompt("This is an experimental feature and could potentially devastate your calendar. Type YES to proceed.")
+                                == "YES" ? cal.download() : false;
+                            };
+                            ttSpan.appendChild(calBtn);
+                        })
+                    })
+                });
+            };
+
+            showTimetable(userID);
+
+            if (localStorage.getItem("access_token") == null) {
+                window.location.replace("login");
+            };
+
+        </script>
+
+    </body>
+
+</html>

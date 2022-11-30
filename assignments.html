@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Better Beehive</title>
+        
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5SR0JTV48F"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-5SR0JTV48F');
+        </script>
+        <!-- End of global site tag (gtag.js) - Google Analytics -->
+
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="favicon.ico">
+    
+    </head>
+
+    <body>
+        
+        <button type="submit" onclick="logoutUser()" style="float: right;">Log out</button>
+        <button type="submit" onclick="window.location.replace('home')" style="float: right;">Home</button>
+
+        <p id="usernameMessage">Logged in: <span id="username"></span></p>
+
+        <h1 style="margin-bottom: 0;">BetterBeehive</h1>
+        <h2 id="slogan" style="margin-top: 0;">It's Beehive but better!</h2>
+
+        <h3>Your tasks</h3>
+
+        <p>Click on a task ID for more details.</p>
+
+        <table id="assignments">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Deadline</th>
+                <th>Set by</th>
+                <th>Set on</th>
+            </tr>
+        </table>
+
+        <p class="footer">
+            Contribute on Github:
+            <a href="https://github.com/0xShay/OpenBeehive" target="_blank">0xShay/OpenBeehive</a>
+        </p>
+        
+        <script src="jwt-decode.js"></script>
+        <script src="logoutUser.js"></script>
+        <script src="userTools.js"></script>
+        <script src="slogans.js"></script>
+
+        <script>
+
+            let userID = getUserID(localStorage.access_token);
+
+            getPlanner(userID).then(planner => {
+                document.getElementById("username").innerHTML = `${planner.firstName} ${planner.lastName} (${planner.tutorGroup.friendlyName})`;
+            });
+
+            getAssignments(userID, 100).then(assignments => {
+                console.log(assignments);
+                assignments = assignments.sort((a, b) => new Date(b.deadline) - new Date(a.deadline));
+                assignments.forEach(task => {
+                    let bgClass = "incomplete";
+                    let deadline = new Date(task.deadline);
+                    let timeNow = new Date();
+                    let isToday = (deadline.getFullYear() == timeNow.getFullYear() && deadline.getMonth() == timeNow.getMonth() && deadline.getDate() == timeNow.getDate());
+                    if (timeNow > deadline) bgClass = "overdue";
+                    if (isToday) bgClass = "today";
+                    if (task.isComplete) bgClass = "complete";
+                    // bgClass = ["incomplete", "complete", "today", "overdue"][Math.floor(Math.random() * 4)];
+                    document.getElementById("assignments").innerHTML += [
+                        `<tr>`,
+                        `<td class="${bgClass}"><a href="task?id=${task.id}">${task.id}</a></td>`,
+                        `<td class="${bgClass}">${task.title}</td>`,
+                        `<td class="${bgClass}">${(new Date(task.deadline)).toLocaleDateString()}</td>`,
+                        `<td class="${bgClass}">${task.setBy.firstName} ${task.setBy.lastName}</td>`,
+                        `<td class="${bgClass}">${(new Date(task.setOn)).toLocaleDateString()}</td>`,
+                        `</tr>`
+                    ].join("\n");
+                });
+            });
+
+            if (localStorage.getItem("access_token") == null) {
+                window.location.replace("login");
+            };
+
+        </script>
+
+    </body>
+
+</html>

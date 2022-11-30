@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Better Beehive</title>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5SR0JTV48F"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-5SR0JTV48F');
+        </script>
+        <!-- End of global site tag (gtag.js) - Google Analytics -->
+
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="favicon.ico">
+    
+    </head>
+
+    <body>
+
+        <h1 style="margin-bottom: 0;">BetterBeehive</h1>
+        <h2 id="slogan" style="margin-top: 0;">It's Beehive but better!</h2>
+
+        <label for="username">Username</label>
+        <input type="text" name="username" id="usernameInput">
+        <br>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="passwordInput">
+        <br>
+        <button style="margin: 0;" type="submit" onclick="loginUser()" id="loginBtn">Log in</button>
+
+        <p class="footer">
+            Don't trust the sincerity of the website? You can read through the open source code
+            over on GitHub! (<a href="https://github.com/0xShay/OpenBeehive" target="_blank">0xShay/OpenBeehive</a>)
+        </p>
+        
+        <script src="jwt-decode.js"></script>
+        <script src="userTools.js"></script>
+        <script src="slogans.js"></script>
+
+        <script>
+
+            // enter = button press
+            let passwordInput = document.getElementById("passwordInput");
+            passwordInput.addEventListener("keypress", e => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById("loginBtn").click();
+                };
+            });
+
+            // login post
+            let loginUser = async () => {
+
+                let logged = await fetch("https://beehiveapi.lionhearttrust.org.uk/token", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"}, 
+                    body: `grant_type=password&username=${document.getElementById("usernameInput").value}&password=${encodeURIComponent(document.getElementById("passwordInput").value)}&client_id=web`
+                });
+
+                let sessionData = await logged.json();
+
+                console.log(sessionData);
+
+                if (sessionData.error_description) {
+                    alert(sessionData.error_description);
+                } else {
+                    let userID = getDecodedAccessToken(sessionData.access_token).id;
+    
+                    localStorage.setItem("access_token", sessionData.access_token);
+                    localStorage.setItem("refresh_token", sessionData.refresh_token);
+    
+                    window.location.replace("home");
+                };
+
+            };
+
+            if (localStorage.getItem("access_token") != null) {
+                window.location.replace("home");
+            };
+
+        </script>
+
+    </body>
+
+</html>
