@@ -8,61 +8,61 @@ body {
 }
 
 p, label, h4, span#username {
-    color: #a08c9f;
-    text-shadow: #ff00dd 1px 0 3px;
+    color: #a0a08c;
+    text-shadow: #fffb00 1px 0 3px;
 
 }
 
 h1, h2, h3, b {
-    color: #ffccf2;
-    text-shadow: #ff00dd 1px 0 3px;
+    color: #fffccc;
+    text-shadow: #fffb00 1px 0 3px;
 
 }
 
 h1 {
-    color: #c671da;
-    text-shadow: #ff00dd 1px 0 3px;
+    color: #dad871;
+    text-shadow: #fffb00 1px 0 3px;
 }
 
 h2#slogan {
-    color: #998190;
-    text-shadow: #970083 1px 0 3px;
+    color: #999981;
+    text-shadow: #978800 1px 0 3px;
 
 }
 
 p.footer {
     color: #636363;
-    text-shadow: #ff00dd 1px 0 3px;
+    text-shadow: #fffb00 1px 0 3px;
 
 }
 
 p.footer a {
-    color: #e099e0;
-    text-shadow: #ff00dd 1px 0 3px;
+    color: #e0df99;
+    text-shadow: #fffb00 1px 0 3px;
 
 }
 
 p.footer a:hover {
-    color: #851176;
-    text-shadow: #ff00dd 1px 0 3px;
+    color: #7a8511;
+    text-shadow: #fffb00 1px 0 3px;
 
 }
 
 p#usernameMessage {
     color: #636363;
-    text-shadow: #ff00dd 1px 0 3px;
+    text-shadow: #fffb00 1px 0 3px;
 
 }
 
 a {
-    color: #e3afe0;
-    text-shadow: #ff00dd 1px 0 3px;
+    color: #dee3af;
+    text-shadow: #fffb00 1px 0 3px;
 
 }
 
 a:hover {
-    color: #731b64;
-    text-shadow: #2c0226 1px 0 3px;
+    color: #6d731b;
+    text-shadow: #2c2b02 1px 0 3px;
 
 }
 
@@ -99,17 +99,17 @@ button {
     font-family: 'Ubuntu', sans-serif;
     margin: 0.2vw;
     padding: 0.2vw 1vw;
-    border: 1px solid #daafe3;
+    border: 1px solid #e3dfaf;
     border-radius: 0.2vw;
-    color: #daafe3;
+    color: #e3dfaf;
     background-color: #291625;
 }
 
 button:hover {
     margin: 0.2vw;
     padding: 0.2vw 1vw;
-    background-color: #2b1629;
-    box-shadow: #ff00dd 1px 0 5px;
+    background-color: #282b16;
+    box-shadow: #fbff00 1px 0 5px;
 }
 
 img.github {
