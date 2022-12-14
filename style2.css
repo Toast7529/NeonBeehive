@@ -8,64 +8,61 @@ body {
 }
 
 p, label, h4, span#username {
-    color: #cfcf7f;
-    text-shadow: #fffb00 1px 0 3px;
+    color: #a0a08c;
+    text-shadow: #ff9900 1px 0 3px;
 
 }
 
 h1, h2, h3, b {
     color: #fffccc;
-    text-shadow: #fffb00 1px 0 3px;
+    text-shadow: #ff9900 1px 0 3px;
 
 }
 
 h1 {
     color: #dad871;
-    text-shadow: #fffb00 1px 0 3px;
+    text-shadow: #ff9900 1px 0 3px;
 }
 
 h2#slogan {
-    color: #a3a359;
+    color: #999981;
     text-shadow: #978800 1px 0 3px;
 
 }
-p {
-    color: #dad871;
-    text-shadow: #fffb00 1px 0 3px;
-}
+
 p.footer {
-    color: #dad871;
-    text-shadow: #fffb00 1px 0 3px;
+    color: #636363;
+    text-shadow: #ff9900 1px 0 3px;
 
 }
 
 p.footer a {
     color: #e0df99;
-    text-shadow: #fffb00 1px 0 3px;
+    text-shadow: #ff9900 1px 0 3px;
 
 }
 
 p.footer a:hover {
     color: #7a8511;
-    text-shadow: #fffb00 1px 0 3px;
+    text-shadow: #ff9900 1px 0 3px;
 
 }
 
 p#usernameMessage {
-    color: #dad871;
-    text-shadow: #fffb00 1px 0 3px;
+    color: #ff8800;
+    text-shadow: #ff9900 1px 0 3px;
 
 }
 
 a {
-    color: #dad871;
-    text-shadow: #fffb00 1px 0 3px;
+    color: #e3c2af;
+    text-shadow: #ff9900 1px 0 3px;
 
 }
 
 a:hover {
     color: #6d731b;
-    text-shadow: #525001 1px 0 3px;
+    text-shadow: #2c2b02 1px 0 3px;
 
 }
 
@@ -77,11 +74,11 @@ td, th {
 }
 
 ul.sitemap a {
-    color: #dddf82;
+    color: #a6a6a6;
 }
 
 ul.sitemap a:hover {
-    color: #dad871;
+    color: #636363;
 }
 
 ul.sitemap {
@@ -102,26 +99,17 @@ button {
     font-family: 'Ubuntu', sans-serif;
     margin: 0.2vw;
     padding: 0.2vw 1vw;
-    border: 1px solid #d6cd69;
+    border: 1px solid #e3c2af;
     border-radius: 0.2vw;
-    color: #e3dfaf;
-    background-color: #36340c;
+    color: #e3c4af;
+    background-color: #291625;
 }
 
 button:hover {
     margin: 0.2vw;
     padding: 0.2vw 1vw;
-    background-color: #68630b;
-    box-shadow: #fbff00 1px 0 5px;
-}
-input {
-    font-family: 'Ubuntu', sans-serif;
-    margin: 0.2vw;
-    padding: 0.2vw 1vw;
-    border: 1px solid #e0d774;
-    border-radius: 0.2vw;
-    color: #e3dfaf;
-    background-color: #292816;
+    background-color: #282b16;
+    box-shadow: #ff9900 1px 0 5px;
 }
 
 img.github {
