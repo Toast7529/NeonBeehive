@@ -75,6 +75,14 @@ let getTimetable = async (userID) => {
     return await timetable.json();
 
 };
+let getAnnouncements = async (userID) => {
+    let announcement = await fetch("https://beehiveapi.lionhearttrust.org.uk/v3.5/feed/users/" + userID + "?feedItemType=1&pageIndex=0&pageSize=5", {
+        headers: new Headers({
+            "authorization": "Bearer " + localStorage.access_token 
+        })
+    });
+    return await announcement.json();
+}
 
 const getTaskInfo = async (userID, assignmentID) => {
                 

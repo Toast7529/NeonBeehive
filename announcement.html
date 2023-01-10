@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Better Beehive</title>
+        
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MVP1CQB9EV"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-MVP1CQB9EV');
+        </script>
+
+
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="favicon.ico">
+    
+    </head>
+
+    <body>
+        
+        <button type="submit" onclick="logoutUser()" style="float: right;">Log out</button>
+        <button type="submit" onclick="window.location.replace('home')" style="float: right;">Home</button>
+
+        <p id="usernameMessage">Logged in: <span id="username"></span></p>
+
+        <h1 style="margin-bottom: 0;">BetterBeehive</h1>
+        <h2 id="slogan" style="margin-top: 0;">It's Beehive but better!</h2>
+
+        <h3>Your tasks</h3>
+
+        <table id="announcement">
+            <tr>
+                <th>Set by</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Set on</th>
+            </tr>
+        </table>
+
+        <p class="footer">
+            Contribute on Github:
+            <a href="https://github.com/0xShay/OpenBeehive" target="_blank">0xShay/OpenBeehive</a>
+            <br>&
+            <a href="https://github.com/Toast7529/NeonBeehive" target="_blank">Toast7529/NeonBeehive</a>
+
+        </p>
+        
+        <script src="jwt-decode.js"></script>
+        <script src="logoutUser.js"></script>
+        <script src="userTools.js"></script>
+        <script src="slogans.js"></script>
+
+        <script>
+
+            let userID = getUserID(localStorage.access_token);
+
+            getPlanner(userID).then(planner => {
+                document.getElementById("username").innerHTML = `${planner.firstName} ${planner.lastName} (${planner.tutorGroup.friendlyName})`;
+            });
+
+            getAnnouncements(userID).then(announcement => {
+                
+                announcement = announcement.items.sort((a, b) => new Date(b.publishedDate) - new Date(a.publishedDate));
+                console.log(announcement)
+                announcement.forEach(message => {
+                    document.getElementById("announcement").innerHTML += [
+                        `<tr>`,
+                        `<td>${message.title}</td>`,
+                        `<td>${message.createdBy.title} ${message.createdBy.lastName}</td>`,
+                        `<td>${message.content}</td>`,
+                        `<td>${(new Date(message.publishedDate)).toLocaleDateString()}</td>`,
+                        `</tr>`
+                    ].join("\n");
+                });
+
+            });
+
+            if (localStorage.getItem("access_token") == null) {
+                window.location.replace("login");
+            };
+
+        </script>
+
+    </body>
+
+</html>
