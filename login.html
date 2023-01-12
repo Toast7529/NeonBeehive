@@ -28,14 +28,17 @@
 
         <h1 style="margin-bottom: 0;">BetterBeehive</h1>
         <h2 id="slogan" style="margin-top: 0;">It's Beehive but better!</h2>
+        
+        <div class="login">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="usernameInput" class="login">
+            <br>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="passwordInput"class="login">
+            <br>
+            <button style="margin: 0;" type="submit" onclick="loginUser()" id="loginBtn">Log in</button>
+        </div>
 
-        <label for="username">Username</label>
-        <input type="text" name="username" id="usernameInput">
-        <br>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="passwordInput">
-        <br>
-        <button style="margin: 0;" type="submit" onclick="loginUser()" id="loginBtn">Log in</button>
 
         <p class="footer">
             Don't trust the sincerity of the website? You can read through the open source code

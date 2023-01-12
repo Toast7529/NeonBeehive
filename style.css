@@ -128,7 +128,47 @@ img.github {
     width: 3vw;
 }
 
-th, td { background-color: #121212 }
+th, td {
+    background-color: #121212 
+
+}
+@media only screen and (max-width: 600px) {
+    th, td {
+        background-color: #121212;
+        font-size: auto;
+    }
+    /* .loginBtn {
+        font-family: 'Ubuntu', sans-serif;
+        border: 1px solid #d6cd69;
+        border-radius: 0.2vw;
+        color: #e3dfaf;
+        background-color: #36340c;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    } */
+    h1 {
+        color: #dad871;
+        text-shadow: #fffb00 1px 0 3px;
+        text-align: center;
+    }
+    .login {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        padding: 0.5vh 0.5vh;
+    }
+    input {
+        color: aliceblue;
+    }
+    h2#slogan {
+        color: #a3a359;
+        text-shadow: #978800 1px 0 3px;
+        text-align: center;
+    }
+
+
+}  
 th.complete, td.complete, td.txIncrease { background-color: #0e2112 }
 th.incomplete, td.incomplete { background-color: #121212 }
 th.today, td.today { background-color: #241e13 }
