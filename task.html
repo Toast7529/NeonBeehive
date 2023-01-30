@@ -66,13 +66,13 @@
                 document.getElementById("title").innerHTML = `${task.title} (${task.id})`;
                 document.getElementById("taskInfo").innerHTML = [
                     `<b>Deadline</b>`,
-                    `${(new Date(task.deadline)).toLocaleDateString()}`,
+                    `${(new Date(task.deadline)).toLocaleDateString('en-GB')}`,
                     ``,
                     `<b>Set by</b>`,
                     `${task.setBy.firstName} ${task.setBy.lastName}`,
                     ``,
                     `<b>Set on</b>`,
-                    `${(new Date(task.setOn)).toLocaleDateString()}`,
+                    `${(new Date(task.setOn)).toLocaleDateString('en-GB')}`,
                     ``,
                     `<b>Description</b>`,
                     task.details,
